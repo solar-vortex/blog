@@ -1,0 +1,25 @@
+baseURL: 
+languageCode: en-us
+title: Solar Vortex
+theme: ["PaperMod"]
+params:
+  label:
+    icon: "/images/logo.png"  # Path to your logo image
+    iconHeight: 43  # Adjust size as needed
+
+# menu:
+#   main:
+#     - identifier: categories
+#       name: categories
+#       url: /categories/
+#       weight: 10
+#     - identifier: tags
+#       name: tags
+#       url: /tags/
+#       weight: 20
+#     - identifier: example
+#       name: example.org
+#       url: https://example.org
+#       weight: 30
+
+

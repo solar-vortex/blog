@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><script src="/Solar-Vortex/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=Solar-Vortex/livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+<title>Running Custom WebGL Shaders Using Deck.gl for Solar Potential Analysis | Solar Vortex</title>
+<meta name="keywords" content="">
+<meta name="description" content="Introduction
+Accurate solar potential analysis requires precise shadow modeling—a challenge when dealing with large-scale city models in real time. Traditional GIS tools often rely on precomputed static shadow maps, but for dynamic sun positions and interactive analysis, we need a more flexible approach.
+Leveraging Deck.gl&rsquo;s WebGL-powered rendering pipeline, we implemented a custom shader-based solution to calculate real-time solar exposure on buildings. By extending Deck.gl’s built-in layers with custom GLSL shaders, we were able to:">
+<meta name="author" content="| Atharva Garole">
+<link rel="canonical" href="//localhost:1313/Solar-Vortex/post/customshaders/">
+<link crossorigin="anonymous" href="/Solar-Vortex/assets/css/stylesheet.45e028aa8ce0961349adf411b013ee39406be2c0bc80d4ea3fc04555f7f4611a.css" integrity="sha256-ReAoqozglhNJrfQRsBPuOUBr4sC8gNTqP8BFVff0YRo=" rel="preload stylesheet" as="style">
+<link rel="icon" href="//localhost:1313/Solar-Vortex/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="//localhost:1313/Solar-Vortex/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="//localhost:1313/Solar-Vortex/favicon-32x32.png">
+<link rel="apple-touch-icon" href="//localhost:1313/Solar-Vortex/apple-touch-icon.png">
+<link rel="mask-icon" href="//localhost:1313/Solar-Vortex/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="//localhost:1313/Solar-Vortex/post/customshaders/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+
+
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+
+
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body);"></script>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+            delimiters: [
+                {left: "$$", right: "$$", display: true},
+                {left: "$", right: "$", display: false}
+            ]
+        });
+    });
+</script>
+
+
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="//localhost:1313/Solar-Vortex/" accesskey="h" title="Solar Vortex (Alt + H)">
+                <img src="//localhost:1313/images/logo.png" alt="" aria-label="logo"
+                    height="43">Solar Vortex</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      Running Custom WebGL Shaders Using Deck.gl for Solar Potential Analysis
+    </h1>
+    <div class="post-meta"><span title='2025-02-10 17:08:07 +0530 IST'>February 10, 2025</span>&nbsp;·&nbsp;| Atharva Garole
+
+</div>
+  </header> 
+<figure class="entry-cover"><img loading="eager" src="//localhost:1313/Solar-Vortex/images/image.jpg" alt="Solar Potential Map">
+        <p>Gradient Solar Potential Map of New York City</p>
+</figure><div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#introduction" aria-label="Introduction">Introduction</a></li>
+                <li>
+                    <a href="#advanced-real-time-shadow-computation" aria-label="Advanced Real-Time Shadow Computation">Advanced Real-Time Shadow Computation</a><ul>
+                        
+                <li>
+                    <a href="#sun-position--dynamic-light-source" aria-label="Sun Position &amp; Dynamic Light Source">Sun Position &amp; Dynamic Light Source</a></li>
+                <li>
+                    <a href="#shadow-map-generation" aria-label="Shadow Map Generation">Shadow Map Generation</a></li>
+                <li>
+                    <a href="#rendering-the-shadow-map" aria-label="Rendering the Shadow Map">Rendering the Shadow Map</a></li>
+                <li>
+                    <a href="#depth-comparison-in-the-fragment-shader" aria-label="Depth Comparison in the Fragment Shader">Depth Comparison in the Fragment Shader</a></li>
+                <li>
+                    <a href="#shadow-bias-correction" aria-label="Shadow Bias Correction">Shadow Bias Correction</a></li>
+                <li>
+                    <a href="#percentage-closer-filtering-pcf" aria-label="Percentage Closer Filtering (PCF)">Percentage Closer Filtering (PCF)</a></li>
+                <li>
+                    <a href="#optimizing-shadow-rendering" aria-label="Optimizing Shadow Rendering">Optimizing Shadow Rendering</a></li></ul>
+                </li>
+                <li>
+                    <a href="#lighting-in-deckgl" aria-label="Lighting in Deck.gl">Lighting in Deck.gl</a><ul>
+                        
+                <li>
+                    <a href="#types-of-lighting-in-deckgl" aria-label="Types of Lighting in Deck.gl">Types of Lighting in Deck.gl</a></li>
+                <li>
+                    <a href="#shading--material-effects" aria-label="Shading &amp; Material Effects">Shading &amp; Material Effects</a></li></ul>
+                </li>
+                <li>
+                    <a href="#surface-normals-and-dot-product-in-lighting-calculations" aria-label="Surface Normals and Dot Product in Lighting Calculations">Surface Normals and Dot Product in Lighting Calculations</a></li>
+                <li>
+                    <a href="#writing-custom-shaders-with-deckgl-extensions" aria-label="Writing Custom Shaders with Deck.gl Extensions">Writing Custom Shaders with Deck.gl Extensions</a><ul>
+                        
+                <li>
+                    <a href="#understanding-shader-hooks-in-deckgl" aria-label="Understanding Shader Hooks in Deck.gl">Understanding Shader Hooks in Deck.gl</a></li>
+                <li>
+                    <a href="#creating-a-custom-shader-extension-with-hooks" aria-label="Creating a Custom Shader Extension with Hooks">Creating a Custom Shader Extension with Hooks</a></li>
+                <li>
+                    <a href="#explanation-of-shader-hooks" aria-label="Explanation of Shader Hooks">Explanation of Shader Hooks</a></li>
+                <li>
+                    <a href="#passing-uniforms-to-the-extension" aria-label="Passing Uniforms to the Extension">Passing Uniforms to the Extension</a></li></ul>
+                </li>
+                <li>
+                    <a href="#conclusion" aria-label="Conclusion">Conclusion</a></li>
+                <li>
+                    <a href="#citation" aria-label="Citation">Citation</a>
+                </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><h2 id="introduction">Introduction<a hidden class="anchor" aria-hidden="true" href="#introduction">#</a></h2>
+<p>Accurate solar potential analysis requires <strong>precise shadow modeling</strong>—a challenge when dealing with large-scale city models in real time. Traditional GIS tools often rely on precomputed static shadow maps, but for <strong>dynamic sun positions and interactive analysis</strong>, we need a more flexible approach.</p>
+<p>Leveraging <a href="https://www.deck.gl"><strong>Deck.gl&rsquo;s</strong></a> <strong>WebGL-powered rendering pipeline</strong>, we implemented a <strong>custom shader-based solution</strong> to calculate <strong>real-time solar exposure</strong> on buildings. By extending Deck.gl’s built-in layers with custom <a href="https://developer.mozilla.org/en-US/docs/Games/Techniques/3D_on_the_web/GLSL_Shaders"><strong>GLSL shaders</strong></a>, we were able to:</p>
+<ul>
+<li>Compute <strong>Dynamic shadows</strong> based on the sun’s position.</li>
+<li>Use <strong>Normal vector dot products</strong> to determine light intensity per surface.</li>
+<li>Modify <strong>Fragment shaders</strong> for accurate per-pixel lighting calculations.</li>
+<li>Optimize <strong>real-time rendering</strong> for large-scale city models.</li>
+</ul>
+<p>By integrating <strong>custom shader extensions</strong>, we fine-tuned lighting interactions and implemented <strong>shadow mapping</strong> techniques, making our solar energy assessments both <strong>scientifically accurate and computationally efficient</strong>.</p>
+<h2 id="advanced-real-time-shadow-computation">Advanced Real-Time Shadow Computation<a hidden class="anchor" aria-hidden="true" href="#advanced-real-time-shadow-computation">#</a></h2>
+<p>When planning solar energy systems, shadows play a critical role in determining efficiency. Rooftops and building facades may seem ideal for solar panels, but if they are shaded for most of the day, energy output drops drastically.</p>
+<p>To solve this, we built an interactive solar potential analysis tool using <a href="https://www.deck.gl"><strong>Deck.gl</strong></a> and WebGL shaders. The goal? Simulate shadows in real time, visualize solar exposure, and estimate Building Integrated Photovoltaic (BIPV) potential dynamically.</p>
+<p>Let’s break this down!</p>
+<h3 id="sun-position--dynamic-light-source">Sun Position &amp; Dynamic Light Source<a hidden class="anchor" aria-hidden="true" href="#sun-position--dynamic-light-source">#</a></h3>
+<p>Shadows are entirely dependent on the sun’s azimuth and elevation, which change throughout the day. We compute these values dynamically and feed them into <strong>Deck.gl’s SunLight API</strong>, which acts as a directional light source:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">SunLight</span> } <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;@deck.gl/core&#39;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">sunLight</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">SunLight</span>({
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">timestamp</span><span style="color:#f92672">:</span> Date.<span style="color:#a6e22e">now</span>(), <span style="color:#75715e">// Dynamic time-based sunlight
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#a6e22e">color</span><span style="color:#f92672">:</span> [<span style="color:#ae81ff">255</span>, <span style="color:#ae81ff">255</span>, <span style="color:#ae81ff">255</span>],
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">intensity</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">1.0</span>
+</span></span><span style="display:flex;"><span>});
+</span></span></code></pre></div><p>This ensures that shadows shift in real time as the user adjusts the time slider, accurately reflecting sunlight exposure patterns.</p>
+<h3 id="shadow-map-generation">Shadow Map Generation<a hidden class="anchor" aria-hidden="true" href="#shadow-map-generation">#</a></h3>
+<p>We start by creating a framebuffer object (FBO) to store depth and color information for our shadow map. The <code>ShadowPass</code> class extends <code>LayersPass</code> to create and manage this framebuffer.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">fbo</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">device</span>.<span style="color:#a6e22e">createFramebuffer</span>({
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">id</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;shadowmap&#39;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">width</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">1</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">height</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">1</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">colorAttachments</span><span style="color:#f92672">:</span> [<span style="color:#a6e22e">shadowMap</span>],
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">depthStencilAttachment</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">depthBuffer</span>
+</span></span><span style="display:flex;"><span>});
+</span></span></code></pre></div><ul>
+<li><strong>Color attachment</strong>: Contains the depth map as a texture.</li>
+<li><strong>Depth attachment</strong>: Ensures depth testing works correctly.</li>
+</ul>
+<h3 id="rendering-the-shadow-map">Rendering the Shadow Map<a hidden class="anchor" aria-hidden="true" href="#rendering-the-shadow-map">#</a></h3>
+<p>The <code>render</code> method resizes the framebuffer according to the viewport dimensions and clears it with a white color before rendering the shadow pass.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">clearColor</span> <span style="color:#f92672">=</span> [<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>];
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">super</span>.<span style="color:#a6e22e">render</span>({...<span style="color:#a6e22e">params</span>, <span style="color:#a6e22e">clearColor</span>, <span style="color:#a6e22e">target</span>, <span style="color:#a6e22e">pass</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;shadow&#39;</span>});
+</span></span></code></pre></div><ul>
+<li><strong>Framebuffer resizing</strong>: Ensures the shadow map’s resolution matches the viewport.</li>
+<li><strong>Depth test</strong>: Controlled using <code>depthWriteEnabled</code> and <code>depthCompare</code> parameters.</li>
+</ul>
+<h3 id="depth-comparison-in-the-fragment-shader">Depth Comparison in the Fragment Shader<a hidden class="anchor" aria-hidden="true" href="#depth-comparison-in-the-fragment-shader">#</a></h3>
+<p>The heart of the shadow projection technique lies in the GLSL fragment shader:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-glsl" data-lang="glsl"><span style="display:flex;"><span><span style="color:#66d9ef">uniform</span> <span style="color:#66d9ef">sampler2D</span> shadowMap;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">varying</span> <span style="color:#66d9ef">vec4</span> vShadowCoord;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> main() {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">float</span> shadowDepth <span style="color:#f92672">=</span> texture2D(shadowMap, vShadowCoord.xy).z;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (vShadowCoord.z <span style="color:#f92672">&gt;</span> shadowDepth) {
+</span></span><span style="display:flex;"><span>    gl_FragColor.rgb <span style="color:#f92672">*=</span> <span style="color:#ae81ff">0.5</span>; <span style="color:#75715e">// Render in shadow</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li><strong>Shadow map sampling</strong>: Fetches the depth value from the shadow map.</li>
+<li><strong>Depth comparison</strong>: Determines if the fragment is in shadow.</li>
+</ul>
+<h3 id="shadow-bias-correction">Shadow Bias Correction<a hidden class="anchor" aria-hidden="true" href="#shadow-bias-correction">#</a></h3>
+<p>A common issue in shadow mapping is <strong>shadow acne</strong>, where self-shadowing artifacts appear due to precision issues with depth comparison. We apply a small bias to the depth value to mitigate this:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-glsl" data-lang="glsl"><span style="display:flex;"><span><span style="color:#66d9ef">float</span> bias <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.005</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> (vShadowCoord.z <span style="color:#f92672">-</span> bias <span style="color:#f92672">&gt;</span> shadowDepth) {
+</span></span><span style="display:flex;"><span>  gl_FragColor.rgb <span style="color:#f92672">*=</span> <span style="color:#ae81ff">0.5</span>; <span style="color:#75715e">// Render in shadow with bias correction</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li><strong>Bias tuning</strong>: Must be adjusted based on the scene scale to avoid Peter Panning (shadows detaching from objects).</li>
+</ul>
+<h3 id="percentage-closer-filtering-pcf">Percentage Closer Filtering (PCF)<a hidden class="anchor" aria-hidden="true" href="#percentage-closer-filtering-pcf">#</a></h3>
+<p>To achieve soft shadows, we implement <strong>Percentage Closer Filtering (PCF)</strong>, which averages multiple depth comparisons around the fragment’s shadow coordinate:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-glsl" data-lang="glsl"><span style="display:flex;"><span><span style="color:#66d9ef">float</span> shadow <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.0</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">vec2</span> texelSize <span style="color:#f92672">=</span> <span style="color:#ae81ff">1.0</span> <span style="color:#f92672">/</span> textureSize(shadowMap, <span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> x <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>; x <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">1</span>; x<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> y <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>; y <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">1</span>; y<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">float</span> pcfDepth <span style="color:#f92672">=</span> texture2D(shadowMap, vShadowCoord.xy <span style="color:#f92672">+</span> <span style="color:#66d9ef">vec2</span>(x, y) <span style="color:#f92672">*</span> texelSize).z;
+</span></span><span style="display:flex;"><span>    shadow <span style="color:#f92672">+=</span> vShadowCoord.z <span style="color:#f92672">&gt;</span> pcfDepth <span style="color:#f92672">?</span> <span style="color:#ae81ff">0.3</span> <span style="color:#f92672">:</span> <span style="color:#ae81ff">1.0</span>;
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>shadow <span style="color:#f92672">/=</span> <span style="color:#ae81ff">9.0</span>;
+</span></span><span style="display:flex;"><span>gl_FragColor.rgb <span style="color:#f92672">*=</span> shadow;
+</span></span></code></pre></div><ul>
+<li><strong>Texel size calculation</strong>: Ensures smooth sampling over the shadow map.</li>
+<li><strong>Soft shadow effect</strong>: Creates a more realistic penumbra.</li>
+</ul>
+<h3 id="optimizing-shadow-rendering">Optimizing Shadow Rendering<a hidden class="anchor" aria-hidden="true" href="#optimizing-shadow-rendering">#</a></h3>
+<ol>
+<li><strong>Mipmapping</strong>: Enabled for the shadow map texture to improve sampling quality.</li>
+<li><strong>Clamp-to-edge wrapping</strong>: Prevents artifacts at texture boundaries.</li>
+<li><strong>Blending and depth testing</strong>: Configured in <code>getLayerParameters</code> for accurate depth comparison.</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">return</span> {
+</span></span><span style="display:flex;"><span>  ...<span style="color:#a6e22e">layer</span>.<span style="color:#a6e22e">props</span>.<span style="color:#a6e22e">parameters</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">blend</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">depthWriteEnabled</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">depthCompare</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;less-equal&#39;</span>
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><figure class="align-center ">
+    <img loading="lazy" src="/images/gif.gif#center"
+         alt="A rotating solar panel GIF"/> 
+</figure>
+
+<hr>
+<h2 id="lighting-in-deckgl">Lighting in Deck.gl<a hidden class="anchor" aria-hidden="true" href="#lighting-in-deckgl">#</a></h2>
+<p>Lighting in Deck.gl is fundamental for rendering realistic urban environments. By leveraging physically based lighting models and GPU-accelerated shading techniques, we ensure accurate simulation of sunlight exposure.</p>
+<h3 id="types-of-lighting-in-deckgl">Types of Lighting in Deck.gl<a hidden class="anchor" aria-hidden="true" href="#types-of-lighting-in-deckgl">#</a></h3>
+<p>Deck.gl provides three primary lighting models:</p>
+<ul>
+<li><strong>AmbientLight</strong> – Uniform, directionless light that prevents complete darkness.</li>
+<li><strong>DirectionalLight</strong> – Simulates sunlight with parallel rays, enabling dynamic shadows.</li>
+<li><strong>PointLight</strong> – Emits light in all directions (less relevant for solar analysis).</li>
+</ul>
+<p>For our project, <strong>DirectionalLight</strong> is key to accurately representing sunlight throughout the day.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">directionalLight</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">DirectionalLight</span>({
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">color</span><span style="color:#f92672">:</span> [<span style="color:#ae81ff">255</span>, <span style="color:#ae81ff">255</span>, <span style="color:#ae81ff">255</span>],
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">intensity</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">1.0</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">direction</span><span style="color:#f92672">:</span> [<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]
+</span></span><span style="display:flex;"><span>});
+</span></span></code></pre></div><h3 id="shading--material-effects">Shading &amp; Material Effects<a hidden class="anchor" aria-hidden="true" href="#shading--material-effects">#</a></h3>
+<p>Deck.gl applies <strong>Phong shading</strong> to simulate how surfaces react to light. This involves:</p>
+<ul>
+<li><strong>Diffuse Lighting</strong> – Reflects light based on surface angle to the light source.</li>
+<li><strong>Specular Highlights</strong> – Adds realistic reflections for glass and metal.</li>
+<li><strong>Ambient Reflection</strong> – Prevents pitch-black areas by simulating indirect light scattering.</li>
+</ul>
+
+<div style="position: relative; width: 100%; height: 450px; overflow: hidden; border-radius: 12px;">
+  <iframe 
+    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
+           border: none; display: block; transform: scale(1.01); transform-origin: center;" 
+    scrolling="no" title="deck.gl LightingEffec" 
+    src="https://codepen.io/vis-gl/embed/ZZwrZz?default-tab=result&editable=true&theme-id=dark" 
+    frameborder="0" loading="lazy" allowtransparency="true" allowfullscreen="true">
+  </iframe>
+</div>
+
+<hr>
+<h2 id="surface-normals-and-dot-product-in-lighting-calculations">Surface Normals and Dot Product in Lighting Calculations<a hidden class="anchor" aria-hidden="true" href="#surface-normals-and-dot-product-in-lighting-calculations">#</a></h2>
+<p>In Deck.gl and real-time rendering, the dot product between a surface normal and a light direction vector is fundamental to determining how light interacts with surfaces. This relationship is captured using:</p>
+<p>$$ \vec{N} \cdot \vec{L} = |\vec{N}| |\vec{L}| \cos(\theta) $$
+$$ I = \max(0, \vec{N} \cdot \vec{L}) $$</p>
+<p>Where:</p>
+<ul>
+<li>$( I )$ is the diffuse light intensity.</li>
+<li>$( \vec{N} )$ is the normalized surface normal vector.</li>
+<li>$( \vec{L} )$ is the normalized light direction vector.</li>
+</ul>
+<p>In Deck.gl shaders:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-glsl" data-lang="glsl"><span style="display:flex;"><span><span style="color:#66d9ef">vec3</span> normal <span style="color:#f92672">=</span> normalize(vNormal);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">vec3</span> lightDir <span style="color:#f92672">=</span> normalize(uLightDirection);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">float</span> intensity <span style="color:#f92672">=</span> max(<span style="color:#ae81ff">0.0</span>, dot(normal, lightDir));
+</span></span></code></pre></div><p>This intensity value adjusts shading dynamically, highlighting surfaces based on their orientation to the sun.</p>
+<hr>
+<h2 id="writing-custom-shaders-with-deckgl-extensions">Writing Custom Shaders with Deck.gl Extensions<a hidden class="anchor" aria-hidden="true" href="#writing-custom-shaders-with-deckgl-extensions">#</a></h2>
+<p>Deck.gl provides a powerful extension system for injecting custom WebGL shaders into its rendering pipeline. This flexibility is critical for accurate solar potential analysis.</p>
+<h3 id="understanding-shader-hooks-in-deckgl">Understanding Shader Hooks in Deck.gl<a hidden class="anchor" aria-hidden="true" href="#understanding-shader-hooks-in-deckgl">#</a></h3>
+<p>Deck.gl uses shader hooks to allow developers to modify the built-in rendering pipeline without rewriting the entire shader. A LayerExtension in Deck.gl provides a clean way to attach these hooks to existing layers. Let’s break down how this works!</p>
+<h3 id="creating-a-custom-shader-extension-with-hooks">Creating a Custom Shader Extension with Hooks<a hidden class="anchor" aria-hidden="true" href="#creating-a-custom-shader-extension-with-hooks">#</a></h3>
+<p>In the example, the <code>HeatMapExtension</code> class extends <code>LayerExtension</code> and defines shader injections via the <code>getShaders</code> method:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">HeatMapExtension</span> <span style="color:#66d9ef">extends</span> <span style="color:#a6e22e">deck</span>.<span style="color:#a6e22e">LayerExtension</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">getShaders</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">inject</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;vs:#decl&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">`
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">          varying vec3 vNormal;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        `</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;vs:#main-end&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">`
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">          vNormal = normalize(geometry.normal);
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        `</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;fs:#decl&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">`
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">          varying vec3 vNormal;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">          uniform vec3 uLightDirection;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        `</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;fs:DECKGL_FILTER_COLOR&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">`
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">          vec3 lightDir = normalize(uLightDirection);
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">          vec3 normal = normalize(vNormal);
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">          float dotProduct = max(dot(normal, lightDir), 0.0);
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">          vec3 colorValue = mix(vec3(0.5), vec3(1.0), dotProduct);
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">          color = vec4(colorValue, 1.0);
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        `</span>,
+</span></span><span style="display:flex;"><span>      },
+</span></span><span style="display:flex;"><span>    };
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="explanation-of-shader-hooks">Explanation of Shader Hooks<a hidden class="anchor" aria-hidden="true" href="#explanation-of-shader-hooks">#</a></h3>
+<ul>
+<li><code>vs:#decl</code>: Injects a varying variable declaration into the vertex shader to pass normal data to the fragment shader.</li>
+<li><code>vs:#main-end</code>: Captures and normalizes the surface normal from the geometry after the vertex shader&rsquo;s main function.</li>
+<li><code>fs:#decl</code>: Declares the varying normal vector and the uniform for the light direction in the fragment shader.</li>
+<li><code>fs:DECKGL_FILTER_COLOR</code>: A Deck.gl filter hook that modifies the fragment color based on the dot product of the surface normal and light direction, simulating diffuse lighting.</li>
+</ul>
+<h3 id="passing-uniforms-to-the-extension">Passing Uniforms to the Extension<a hidden class="anchor" aria-hidden="true" href="#passing-uniforms-to-the-extension">#</a></h3>
+<p>To ensure that the custom shader extension receives the correct light direction, uniforms need to be passed explicitly to the layer using the <code>getUniforms</code> function. This allows dynamic updates to lighting without modifying the extension code itself.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">lightDirection</span> <span style="color:#f92672">=</span> [<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>]; <span style="color:#75715e">// Example light direction
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">geoJsonLayer</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">deck</span>.<span style="color:#a6e22e">GeoJsonLayer</span>({
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">id</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;geojson-layer&#39;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">data</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;https://example.com/geojson&#39;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">filled</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">extruded</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">getFillColor</span><span style="color:#f92672">:</span> [<span style="color:#ae81ff">255</span>, <span style="color:#ae81ff">255</span>, <span style="color:#ae81ff">255</span>],
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">getElevation</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">f</span> =&gt; <span style="color:#a6e22e">f</span>.<span style="color:#a6e22e">properties</span>.<span style="color:#a6e22e">height</span> <span style="color:#f92672">||</span> <span style="color:#ae81ff">0</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">pickable</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">shadowEnabled</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">extensions</span><span style="color:#f92672">:</span> [<span style="color:#66d9ef">new</span> <span style="color:#a6e22e">HeatMapExtension</span>()],
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">parameters</span><span style="color:#f92672">:</span> { <span style="color:#a6e22e">depthTest</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span> },
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">getUniforms</span><span style="color:#f92672">:</span> () =&gt; ({
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">uLightDirection</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">lightDirection</span>,
+</span></span><span style="display:flex;"><span>  }),
+</span></span><span style="display:flex;"><span>});
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">new</span> <span style="color:#a6e22e">deck</span>.<span style="color:#a6e22e">DeckGL</span>({
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">container</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;container&#39;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">initialViewState</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">longitude</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">72.5714</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">latitude</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">23.0225</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">zoom</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">12</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">pitch</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">45</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">bearing</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">0</span>,
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">controller</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">layers</span><span style="color:#f92672">:</span> [<span style="color:#a6e22e">geoJsonLayer</span>],
+</span></span><span style="display:flex;"><span>});
+</span></span></code></pre></div><p>By leveraging the <code>getUniforms</code> function, the light direction can be dynamically passed to the shader, enabling responsive and interactive visualizations without needing to hard-code these values in the shader code itself.</p>
+<hr>
+
+<video autoplay loop muted  playsinline style="width: 100%; border-radius: 12px; height: auto;">
+  <source src="/images/Heatmap.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+
+<h2 id="conclusion">Conclusion<a hidden class="anchor" aria-hidden="true" href="#conclusion">#</a></h2>
+<p>By customizing Deck.gl’s shader pipeline, we achieved real-time, GPU-accelerated shadow modeling for urban-scale solar analysis. The ability to dynamically compute light exposure, surface shading, and shadows ensures a precise evaluation of BIPV and rooftop solar potential.</p>
+<p>This approach empowers researchers, urban planners, and policymakers to interactively explore solar energy potential, making informed decisions on optimal photovoltaic placements. As WebGL and GPU computing continue to evolve, such shader-based methodologies will become essential tools in the future of urban energy modeling and sustainability planning.</p>
+<h2 id="citation">Citation<a hidden class="anchor" aria-hidden="true" href="#citation">#</a></h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bibtex" data-lang="bibtex"><span style="display:flex;"><span><span style="color:#a6e22e">@article</span>{CustomShader,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">title</span>   = <span style="color:#e6db74">&#34;Running Custom WebGL Shaders Using Deck.gl for Solar Potential Analysis.&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">author</span>  = <span style="color:#e6db74">&#34;Atharva Garole&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">journal</span> = <span style="color:#e6db74">&#34;solar-vortex.github.io&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">year</span>    = <span style="color:#e6db74">&#34;2025&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">month</span>   = <span style="color:#e6db74">&#34;Feb&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">url</span>     = <span style="color:#e6db74">&#34;https://solar-vortex.github.io/Solar-Vortex&#34;</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div>
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2025 <a href="//localhost:1313/Solar-Vortex/">Solar Vortex</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>
