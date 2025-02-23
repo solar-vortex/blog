@@ -166,7 +166,7 @@ return {
   depthCompare: 'less-equal'
 };
 ```
-{{< figure align=center src="imgs/gif.gif" alt="A rotating solar panel GIF" caption="" >}}
+{{< figure align=center src="/imgs/gif.gif" alt="A rotating solar panel GIF" caption="" >}}
 
 ---
 
@@ -336,7 +336,7 @@ By leveraging the `getUniforms` function, the light direction can be dynamically
 ---
 {{< rawhtml >}}
 <video autoplay loop muted  playsinline style="width: 100%; border-radius: 12px; height: auto;">
-  <source src="imgs/Heatmap.mp4" type="video/mp4">
+  <source src="/imgs/Heatmap.mp4" type="video/mp4">
   Your browser does not support the video tag.
 </video>
 {{< /rawhtml >}}
