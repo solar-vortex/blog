@@ -2,10 +2,14 @@ baseURL: https://solar-vortex.github.io/blog/
 languageCode: en-us
 title: Solar Vortex
 theme: ["PaperMod"]
+canonifyURLs : true
+# relativeURLs : true
 params:
   label:
-    icon: "/imgs/logo.png"  # Path to your logo image
+    icon: "imgs/logo.png"  # Path to your logo image
     iconHeight: 43  # Adjust size as needed
+
+
 
 # menu:
 #   main:
