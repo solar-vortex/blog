@@ -4,14 +4,14 @@ author: "| Atharva Garole"
 date: 2025-02-10T17:08:07+05:30
 draft: false
 math: true
-label.icon : imgs/logo.png
+label.icon : /imgs/logo.png
 params:
   ShowToc: true
   TocOpen: false
   
 
 cover:
-   image: "imgs/image.jpg"
+   image: "/imgs/image.jpg"
    alt: "Solar Potential Map"
    caption: "Gradient Solar Potential Map of New York City"
    relative: true
@@ -166,7 +166,7 @@ return {
   depthCompare: 'less-equal'
 };
 ```
-{{< figure align=center src="imgs/gif.gif" alt="A rotating solar panel GIF" caption="" >}}
+{{< figure align=center src="/imgs/gif.gif" alt="A rotating solar panel GIF" caption="" >}}
 
 ---
 
@@ -336,7 +336,7 @@ By leveraging the `getUniforms` function, the light direction can be dynamically
 ---
 {{< rawhtml >}}
 <video autoplay loop muted  playsinline style="width: 100%; border-radius: 12px; height: auto;">
-  <source src="imgs/Heatmap.mp4" type="video/mp4">
+  <source src="/imgs/Heatmap.mp4" type="video/mp4">
   Your browser does not support the video tag.
 </video>
 {{< /rawhtml >}}
