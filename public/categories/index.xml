@@ -4,7 +4,7 @@
     <title>Categories on Solar Vortex</title>
     <link>http://localhost:1313/blog/categories/</link>
     <description>Recent content in Categories on Solar Vortex</description>
-    <generator>Hugo -- 0.144.1</generator>
+    <generator>Hugo -- 0.145.0</generator>
     <language>en-us</language>
     <atom:link href="http://localhost:1313/blog/categories/index.xml" rel="self" type="application/rss+xml" />
   </channel>

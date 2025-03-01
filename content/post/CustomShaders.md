@@ -38,6 +38,52 @@ Leveraging [**Deck.gl's**](https://www.deck.gl) **WebGL-powered rendering pipeli
 
 By integrating **custom shader extensions**, we fine-tuned lighting interactions and implemented **shadow mapping** techniques, making our solar energy assessments both **scientifically accurate and computationally efficient**.       
 
+## Lighting in Deck.gl
+
+Lighting in Deck.gl is fundamental for rendering realistic urban environments. By leveraging physically based lighting models and GPU-accelerated shading techniques, we ensure accurate simulation of sunlight exposure.
+
+### Types of Lighting in Deck.gl
+
+Deck.gl provides three primary lighting models:
+
+- **AmbientLight** – Uniform, directionless light that prevents complete darkness.
+- **DirectionalLight** – Simulates sunlight with parallel rays, enabling dynamic shadows.
+- **PointLight** – Emits light in all directions (less relevant for solar analysis).
+
+For our project, **DirectionalLight** is key to accurately representing sunlight throughout the day.
+
+```javascript
+const directionalLight = new DirectionalLight({
+  color: [255, 255, 255],
+  intensity: 1.0,
+  direction: [-1, -1, -1]
+});
+```
+
+### Shading & Material Effects
+
+Deck.gl applies **Phong shading** to simulate how surfaces react to light. This involves:
+
+- **Diffuse Lighting** – Reflects light based on surface angle to the light source.
+- **Specular Highlights** – Adds realistic reflections for glass and metal.
+- **Ambient Reflection** – Prevents pitch-black areas by simulating indirect light scattering.
+
+
+{{< rawhtml >}}
+<div style="position: relative; width: 100%; height: 450px; overflow: hidden; border-radius: 12px;">
+  <iframe 
+    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
+           border: none; display: block; transform: scale(1.01); transform-origin: center;" 
+    scrolling="no" title="deck.gl LightingEffec" 
+    src="https://codepen.io/vis-gl/embed/ZZwrZz?default-tab=result&editable=true&theme-id=dark" 
+    frameborder="0" loading="lazy" allowtransparency="true" allowfullscreen="true">
+  </iframe>
+</div>
+{{< /rawhtml >}}
+
+---
+
+
 ## Advanced Real-Time Shadow Computation
 
 When planning solar energy systems, shadows play a critical role in determining efficiency. Rooftops and building facades may seem ideal for solar panels, but if they are shaded for most of the day, energy output drops drastically.
@@ -166,56 +212,6 @@ return {
 };
 ```
 {{< figure align=center src="/blog/imgs/gif.gif" alt="" caption="" >}}
-
-
----
-
-## Lighting in Deck.gl
-
-Lighting in Deck.gl is fundamental for rendering realistic urban environments. By leveraging physically based lighting models and GPU-accelerated shading techniques, we ensure accurate simulation of sunlight exposure.
-
-### Types of Lighting in Deck.gl
-
-Deck.gl provides three primary lighting models:
-
-- **AmbientLight** – Uniform, directionless light that prevents complete darkness.
-- **DirectionalLight** – Simulates sunlight with parallel rays, enabling dynamic shadows.
-- **PointLight** – Emits light in all directions (less relevant for solar analysis).
-
-For our project, **DirectionalLight** is key to accurately representing sunlight throughout the day.
-
-```javascript
-const directionalLight = new DirectionalLight({
-  color: [255, 255, 255],
-  intensity: 1.0,
-  direction: [-1, -1, -1]
-});
-```
-
-### Shading & Material Effects
-
-Deck.gl applies **Phong shading** to simulate how surfaces react to light. This involves:
-
-- **Diffuse Lighting** – Reflects light based on surface angle to the light source.
-- **Specular Highlights** – Adds realistic reflections for glass and metal.
-- **Ambient Reflection** – Prevents pitch-black areas by simulating indirect light scattering.
-
-
-{{< rawhtml >}}
-<div style="position: relative; width: 100%; height: 450px; overflow: hidden; border-radius: 12px;">
-  <iframe 
-    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
-           border: none; display: block; transform: scale(1.01); transform-origin: center;" 
-    scrolling="no" title="deck.gl LightingEffec" 
-    src="https://codepen.io/vis-gl/embed/ZZwrZz?default-tab=result&editable=true&theme-id=dark" 
-    frameborder="0" loading="lazy" allowtransparency="true" allowfullscreen="true">
-  </iframe>
-</div>
-{{< /rawhtml >}}
-
-
-
-
 
 
 ---
@@ -359,6 +355,6 @@ This approach empowers researchers, urban planners, and policymakers to interact
   journal = "solar-vortex.github.io",
   year    = "2025",
   month   = "Feb",
-  url     = "https://solar-vortex.github.io/Solar-Vortex"
+  url     = "https://solar-vortex.github.io/blog/post/customshaders/"
 }
 
