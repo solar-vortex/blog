@@ -17,5 +17,37 @@
 &lt;p&gt;Accurate solar potential analysis requires &lt;strong&gt;precise shadow modeling&lt;/strong&gt;—a challenge when dealing with large-scale city models in real time. Traditional GIS tools often rely on precomputed static shadow maps, but for &lt;strong&gt;dynamic sun positions and interactive analysis&lt;/strong&gt;, we need a more flexible approach.&lt;/p&gt;
 &lt;p&gt;Leveraging &lt;a href=&#34;https://www.deck.gl&#34;&gt;&lt;strong&gt;Deck.gl&amp;rsquo;s&lt;/strong&gt;&lt;/a&gt; &lt;strong&gt;WebGL-powered rendering pipeline&lt;/strong&gt;, we implemented a &lt;strong&gt;custom shader-based solution&lt;/strong&gt; to calculate &lt;strong&gt;real-time solar exposure&lt;/strong&gt; on buildings. By extending Deck.gl’s built-in layers with custom &lt;a href=&#34;https://developer.mozilla.org/en-US/docs/Games/Techniques/3D_on_the_web/GLSL_Shaders&#34;&gt;&lt;strong&gt;GLSL shaders&lt;/strong&gt;&lt;/a&gt;, we were able to:&lt;/p&gt;</description>
     </item>
+    <item>
+      <title>Second Blog</title>
+      <link>http://localhost:1313/blog/post/blog2/</link>
+      <pubDate>Mon, 10 Feb 2025 17:08:07 +0530</pubDate>
+      <guid>http://localhost:1313/blog/post/blog2/</guid>
+      <description>&lt;h2 id=&#34;citation&#34;&gt;Citation&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bibtex&#34; data-lang=&#34;bibtex&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;@article&lt;/span&gt;{CustomShader,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#a6e22e&#34;&gt;title&lt;/span&gt;   = &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Second Blog&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#a6e22e&#34;&gt;author&lt;/span&gt;  = &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Prathamesh Badgujar&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#a6e22e&#34;&gt;journal&lt;/span&gt; = &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;solar-vortex.github.io&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#a6e22e&#34;&gt;year&lt;/span&gt;    = &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;2025&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#a6e22e&#34;&gt;month&lt;/span&gt;   = &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Feb&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#a6e22e&#34;&gt;url&lt;/span&gt;     = &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;https://solar-vortex.github.io/blog/post/customshaders/&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+    </item>
+    <item>
+      <title>Second Blog</title>
+      <link>http://localhost:1313/blog/post/blog3/</link>
+      <pubDate>Mon, 10 Feb 2025 17:08:07 +0530</pubDate>
+      <guid>http://localhost:1313/blog/post/blog3/</guid>
+      <description>&lt;h2 id=&#34;citation&#34;&gt;Citation&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bibtex&#34; data-lang=&#34;bibtex&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;@article&lt;/span&gt;{CustomShader,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#a6e22e&#34;&gt;title&lt;/span&gt;   = &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Second Blog&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#a6e22e&#34;&gt;author&lt;/span&gt;  = &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Prathamesh Badgujar&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#a6e22e&#34;&gt;journal&lt;/span&gt; = &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;solar-vortex.github.io&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#a6e22e&#34;&gt;year&lt;/span&gt;    = &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;2025&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#a6e22e&#34;&gt;month&lt;/span&gt;   = &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Feb&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#a6e22e&#34;&gt;url&lt;/span&gt;     = &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;https://solar-vortex.github.io/blog/post/customshaders/&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+    </item>
   </channel>
 </rss>
