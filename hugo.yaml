@@ -1,7 +1,9 @@
 baseURL: https://solar-vortex.github.io/blog/
 languageCode: en-us
 title: Solar Vortex
+copyright: "© [Solar-Vortex](https://solar-vortex.github.io)"
 theme: ["PaperMod"]
+enableRobotsTXT: true
 # canonifyURLs : true
 # relativeURLs : true
 params:
@@ -12,7 +14,30 @@ params:
     favicon: "favicon_32x32.png"  # Path to your favicon image
     touchicon: "appletouchicon.png"  # Path to your touchicon image
     appleicon: "appletouchicon.png"  # Path to your appleicon image
-  
+  keywords:
+    - Solar energy
+    - Solar panel placement
+    - 3D solar visualization
+    - Solar power generation
+    - Renewable energy
+    - Google 3D Tiles
+    - Google Maps Platform
+    - Solar API
+    - Three.js
+    - Deck.gl
+    - WebGL rendering
+    - 3D visualization
+    - GIS mapping
+    - Large-scale 3D rendering
+    - Web-based solar simulation
+    - Real-time shadow mapping
+    - Energy efficiency analysis
+    - Solar irradiance calculation
+    - Rooftop solar planning
+    - 3D building modeling
+    - Sunlight analysis
+    - Solar shading analysis
+    - Camera viewport synchronization
 
 
 

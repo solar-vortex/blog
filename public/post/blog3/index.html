@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en" dir="auto">
 
-<head><script src="/blog/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=blog/livereload" data-no-instant defer></script><meta charset="utf-8">
+<head><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="noindex, nofollow">
+<meta name="robots" content="index, follow">
 <title>Calculating BIPV Potential Using GHI, DNI, and Other Solar Parameters | Solar Vortex</title>
 <meta name="keywords" content="">
 <meta name="description" content="Introduction
@@ -17,16 +17,16 @@ Diffuse Horizontal Irradiance (DHI) – the scattered sunlight reaching the surf
 
 In this blog, we discuss how these parameters contribute to BIPV energy estimation and how we integrate them into our 3D city model-based solar analysis for an accurate and interactive assessment.">
 <meta name="author" content="Atharva Garole | Prathamesh Badgujar | Sagar Singh">
-<link rel="canonical" href="http://localhost:1313/blog/post/blog3/">
+<link rel="canonical" href="https://solar-vortex.github.io/blog/post/blog3/">
 <link crossorigin="anonymous" href="/blog/assets/css/stylesheet.45e028aa8ce0961349adf411b013ee39406be2c0bc80d4ea3fc04555f7f4611a.css" integrity="sha256-ReAoqozglhNJrfQRsBPuOUBr4sC8gNTqP8BFVff0YRo=" rel="preload stylesheet" as="style">
-<link rel="icon" href="http://localhost:1313/blog/favicon_32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/blog/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/blog/favicon-32x32.png">
-<link rel="apple-touch-icon" href="http://localhost:1313/blog/apple-touch-icon.png">
-<link rel="mask-icon" href="http://localhost:1313/blog/safari-pinned-tab.svg">
+<link rel="icon" href="https://solar-vortex.github.io/blog/favicon_32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="https://solar-vortex.github.io/blog/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://solar-vortex.github.io/blog/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://solar-vortex.github.io/blog/apple-touch-icon.png">
+<link rel="mask-icon" href="https://solar-vortex.github.io/blog/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" hreflang="en" href="http://localhost:1313/blog/post/blog3/">
+<link rel="alternate" hreflang="en" href="https://solar-vortex.github.io/blog/post/blog3/">
 <noscript>
     <style>
         #theme-toggle,
@@ -86,7 +86,85 @@ In this blog, we discuss how these parameters contribute to BIPV energy estimati
     });
 </script>
 
+<meta property="og:url" content="https://solar-vortex.github.io/blog/post/blog3/">
+  <meta property="og:site_name" content="Solar Vortex">
+  <meta property="og:title" content="Calculating BIPV Potential Using GHI, DNI, and Other Solar Parameters">
+  <meta property="og:description" content="Introduction Building-Integrated Photovoltaics (BIPV) present an innovative way to harness solar energy by integrating photovoltaic panels into a building’s façades and rooftops. Unlike conventional rooftop-mounted solar panels, BIPV panels serve both architectural and functional purposes, making them an essential part of sustainable urban development.
+However, accurately estimating the energy generation potential of BIPV requires precise calculations that consider various solar radiation parameters, including:
+Global Horizontal Irradiance (GHI) – the total solar energy incident on a horizontal surface. Direct Normal Irradiance (DNI) – the amount of direct sunlight received perpendicular to the sun’s rays. Diffuse Horizontal Irradiance (DHI) – the scattered sunlight reaching the surface from the atmosphere. In this blog, we discuss how these parameters contribute to BIPV energy estimation and how we integrate them into our 3D city model-based solar analysis for an accurate and interactive assessment.">
+  <meta property="og:locale" content="en-us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="post">
+    <meta property="article:published_time" content="2025-02-10T17:08:07+05:30">
+    <meta property="article:modified_time" content="2025-02-10T17:08:07+05:30">
+    <meta property="og:image" content="https://solar-vortex.github.io/blog/post/blog3/imgs/bipv.gif">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://solar-vortex.github.io/blog/post/blog3/imgs/bipv.gif">
+<meta name="twitter:title" content="Calculating BIPV Potential Using GHI, DNI, and Other Solar Parameters">
+<meta name="twitter:description" content="Introduction
+Building-Integrated Photovoltaics (BIPV) present an innovative way to harness solar energy by integrating photovoltaic panels into a building’s façades and rooftops. Unlike conventional rooftop-mounted solar panels, BIPV panels serve both architectural and functional purposes, making them an essential part of sustainable urban development.
+However, accurately estimating the energy generation potential of BIPV requires precise calculations that consider various solar radiation parameters, including:
 
+Global Horizontal Irradiance (GHI) – the total solar energy incident on a horizontal surface.
+Direct Normal Irradiance (DNI) – the amount of direct sunlight received perpendicular to the sun’s rays.
+Diffuse Horizontal Irradiance (DHI) – the scattered sunlight reaching the surface from the atmosphere.
+
+In this blog, we discuss how these parameters contribute to BIPV energy estimation and how we integrate them into our 3D city model-based solar analysis for an accurate and interactive assessment.">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://solar-vortex.github.io/blog/post/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Calculating BIPV Potential Using GHI, DNI, and Other Solar Parameters",
+      "item": "https://solar-vortex.github.io/blog/post/blog3/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Calculating BIPV Potential Using GHI, DNI, and Other Solar Parameters",
+  "name": "Calculating BIPV Potential Using GHI, DNI, and Other Solar Parameters",
+  "description": "Introduction Building-Integrated Photovoltaics (BIPV) present an innovative way to harness solar energy by integrating photovoltaic panels into a building’s façades and rooftops. Unlike conventional rooftop-mounted solar panels, BIPV panels serve both architectural and functional purposes, making them an essential part of sustainable urban development.\nHowever, accurately estimating the energy generation potential of BIPV requires precise calculations that consider various solar radiation parameters, including:\nGlobal Horizontal Irradiance (GHI) – the total solar energy incident on a horizontal surface. Direct Normal Irradiance (DNI) – the amount of direct sunlight received perpendicular to the sun’s rays. Diffuse Horizontal Irradiance (DHI) – the scattered sunlight reaching the surface from the atmosphere. In this blog, we discuss how these parameters contribute to BIPV energy estimation and how we integrate them into our 3D city model-based solar analysis for an accurate and interactive assessment.\n",
+  "keywords": [
+    
+  ],
+  "articleBody": "Introduction Building-Integrated Photovoltaics (BIPV) present an innovative way to harness solar energy by integrating photovoltaic panels into a building’s façades and rooftops. Unlike conventional rooftop-mounted solar panels, BIPV panels serve both architectural and functional purposes, making them an essential part of sustainable urban development.\nHowever, accurately estimating the energy generation potential of BIPV requires precise calculations that consider various solar radiation parameters, including:\nGlobal Horizontal Irradiance (GHI) – the total solar energy incident on a horizontal surface. Direct Normal Irradiance (DNI) – the amount of direct sunlight received perpendicular to the sun’s rays. Diffuse Horizontal Irradiance (DHI) – the scattered sunlight reaching the surface from the atmosphere. In this blog, we discuss how these parameters contribute to BIPV energy estimation and how we integrate them into our 3D city model-based solar analysis for an accurate and interactive assessment.\n1. Understanding Key Solar Irradiance Parameters Global Horizontal Irradiance (GHI) GHI is the total solar radiation received on a horizontal surface and is one of the most critical factors in solar energy analysis. It comprises two components:\n$$\\ GHI = DNI \\cdot \\cos(\\theta_z) + DHI $$\nwhere:\nDNI (Direct Normal Irradiance): The direct sunlight component that reaches the Earth’s surface without being scattered. DHI (Diffuse Horizontal Irradiance): The portion of sunlight that is scattered by molecules and aerosols in the atmosphere. θz (Zenith Angle): The angle between the sun’s position and the vertical (the higher the sun, the lower the zenith angle). For flat rooftop-mounted PV panels, GHI is generally sufficient for estimating solar potential. However, for BIPV panels mounted on vertical walls, GHI alone is insufficient, as they receive a significant portion of their energy from DNI.\nGlobal Horizontal Irradiance\nWhy DNI is Important for BIPV? Unlike horizontal rooftops, building façades are vertical structures that receive more sunlight when the sun is lower in the sky (morning and evening). This makes DNI a more relevant factor in estimating the energy generation of vertical BIPV panels. Direct Normal Irradiance\n2. Calculating Solar Exposure for Vertical Surfaces BIPV panels mounted on vertical façades experience different sunlight exposure patterns throughout the day. To accurately estimate their energy generation, we use the Plane of Array (POA) irradiance formula:\n$$\\ POA = DNI \\cdot \\cos(\\theta) + DHI \\cdot \\frac{(1+\\cos(\\beta))}{2} + GHI \\cdot \\rho \\cdot \\frac{(1-\\cos(\\beta))}{2} $$\nwhere:\nθ (Incidence Angle): The angle between the sunlight and the panel’s surface. β (Tilt Angle): The panel’s tilt from the horizontal plane (90° for vertical BIPV). ρ (Albedo Coefficient): The proportion of sunlight reflected from surrounding surfaces (ground, nearby buildings). This calculation allows us to determine how much solar energy can be captured by BIPV panels on different façades and helps identify the most suitable orientations for maximum energy generation.\n3. Dynamic Solar Irradiance Mapping for Enhanced BIPV Potential Why Traditional Solar Assessments Are Insufficient Most traditional solar potential studies use static assumptions that do not consider real-world variations such as:\nDaily and seasonal changes in the sun’s position Shading effects from nearby buildings Variations in atmospheric conditions To overcome these limitations, we implemented a dynamic solar irradiance mapping system that updates in real time based on various environmental factors.\nKey Components of Dynamic Mapping Sun Position Calculations Using solar azimuth (horizontal angle) and solar altitude (vertical angle), we track how sunlight strikes different building surfaces throughout the day and year. This allows us to predict peak solar exposure periods for façade-mounted BIPV panels. DNI \u0026 POA Adjustments Since vertical surfaces receive sunlight at different angles than rooftops, we adjust the DNI and POA irradiance values for each building wall. Shading Analysis Shadows from nearby structures significantly reduce BIPV efficiency. Our system uses 3D shadow simulations to determine which surfaces are partially or completely shaded at different times of the day. Seasonal Variability Consideration Solar exposure changes across seasons, with lower angles in winter and higher angles in summer. Our model factors in annual variations to estimate the long-term energy yield for BIPV installations. By integrating these dynamic components, our BIPV assessment becomes far more accurate than conventional static solar potential maps.\n4. Integrating BIPV Analysis into a 3D City Model We implemented our solar analysis within an interactive 3D city model using Deck.gl and Three.js, allowing users to visualize BIPV potential in a realistic urban environment.\nStep 1: Sun Position and Shadow Mapping We compute the exact sun position based on date, time, and location. A shadow-casting algorithm is applied to detect self-shading and nearby structure obstructions. Step 2: Energy Estimation for Each Building Face Each building façade is treated as a potential BIPV surface. The POA irradiance formula is used to calculate daily and annual energy generation for each orientation. Step 3: Data Visualization in 3D Solar exposure heatmaps are rendered on building façades. Users can interact with the map, click on buildings, and view BIPV potential values for each surface. 5. Using GDAL for Efficient Solar Data Processing Handling large-scale solar data requires efficient geospatial processing. We use GDAL (Geospatial Data Abstraction Library) to:\nRead and extract solar data from GeoTIFF files containing GHI, DNI, and other irradiance datasets. Reproject datasets to match the coordinate system of the 3D city model. Perform pixel-based solar calculations using NumPy integration with GDAL. Filter and analyze only relevant areas, avoiding unnecessary computations. Using TIFF Files for Solar Energy Estimation In our BIPV project, we used GDAL to read DNI, GHI, and DHI TIFF files, which store solar irradiance values for different geographical locations. The steps involved:\nLoading the TIFF data: Using GDAL’s gdal.Open() to read raster data. Extracting pixel values: Converting raster data into a NumPy array for calculations. Reprojecting the data: Aligning the TIFF coordinates with our 3D city model. Calculating BIPV potential: Using extracted solar parameters for POA calculations. Visualizing results: Mapping processed solar energy data onto Deck.gl 3D models. By using GDAL, we significantly improve the efficiency and accuracy of our BIPV potential calculations.\nConclusion Building-Integrated Photovoltaics (BIPV) require advanced solar energy estimation techniques to determine their feasibility and efficiency. Our approach integrates:\nGlobal Horizontal Irradiance (GHI) and Direct Normal Irradiance (DNI) for precise calculations. Plane of Array (POA) irradiance calculations to assess vertical surfaces. Dynamic sun position tracking and real-time shading analysis. 3D visualization with Deck.gl and Three.js for interactive exploration. GDAL-based data processing for efficient handling of large-scale solar datasets. This scientifically accurate method ensures that urban planners, architects, and policymakers can make data-driven decisions for deploying BIPV systems efficiently.\nCitation @article{CustomShader, title = \"Calculating BIPV Potential Using GHI, DNI, and Other Solar Parameters\", author = \"Atharva Garole | Prathamesh Badgujar | Sagar Singh\", journal = \"solar-vortex.github.io\", year = \"2025\", month = \"February\", url = \"https://solar-vortex.github.io/blog/post/blog3/\" } ",
+  "wordCount" : "1103",
+  "inLanguage": "en",
+  "image":"https://solar-vortex.github.io/blog/post/blog3/imgs/bipv.gif","datePublished": "2025-02-10T17:08:07+05:30",
+  "dateModified": "2025-02-10T17:08:07+05:30",
+  "author":{
+    "@type": "Person",
+    "name": "Atharva Garole | Prathamesh Badgujar | Sagar Singh"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://solar-vortex.github.io/blog/post/blog3/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Solar Vortex",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://solar-vortex.github.io/blog/favicon_32x32.png"
+    }
+  }
+}
+</script>
 </head>
 
 <body class="" id="top">
@@ -104,8 +182,8 @@ In this blog, we discuss how these parameters contribute to BIPV energy estimati
 <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="http://localhost:1313/blog/" accesskey="h" title="Solar Vortex (Alt + H)">
-                <img src="http://localhost:1313/blog/imgs/logo.png" alt="" aria-label="logo"
+            <a href="https://solar-vortex.github.io/blog/" accesskey="h" title="Solar Vortex (Alt + H)">
+                <img src="https://solar-vortex.github.io/blog/imgs/logo.png" alt="" aria-label="logo"
                     height="43">Solar Vortex</a>
             <div class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)">
@@ -146,7 +224,7 @@ In this blog, we discuss how these parameters contribute to BIPV energy estimati
 
 </div>
   </header> 
-<figure class="entry-cover"><img loading="eager" src="http://localhost:1313/blog/imgs/bipv.gif" alt="Solar Potential Map">
+<figure class="entry-cover"><img loading="eager" src="https://solar-vortex.github.io/blog/imgs/bipv.gif" alt="Solar Potential Map">
         <p>Gradient Solar Potential Map of New York City</p>
 </figure><div class="toc">
     <details >
@@ -371,7 +449,7 @@ In this blog, we discuss how these parameters contribute to BIPV energy estimati
     </main>
     
 <footer class="footer">
-        <span>&copy; 2025 <a href="http://localhost:1313/blog/">Solar Vortex</a></span> · 
+        <span>© <a href="https://solar-vortex.github.io">Solar-Vortex</a></span> · 
 
     <span>
         Powered by
