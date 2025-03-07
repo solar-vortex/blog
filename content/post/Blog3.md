@@ -1,9 +1,10 @@
 ---
 title: "Calculating BIPV Potential Using GHI, DNI, and Other Solar Parameters"
-author: "| Sagar Singh"
+author: "Atharva Garole | Prathamesh Badgujar | Sagar Singh"
 date: 2025-02-10T17:08:07+05:30
 draft: false
 math: true
+weight : 3
 params:
   ShowToc: true
   TocOpen: false
@@ -175,10 +176,10 @@ This **scientifically accurate** method ensures that urban planners, architects,
 ```bibtex
 @article{CustomShader,
   title   = "Calculating BIPV Potential Using GHI, DNI, and Other Solar Parameters",
-  author  = "Sagar Singh",
+  author  = "Atharva Garole | Prathamesh Badgujar | Sagar Singh",
   journal = "solar-vortex.github.io",
   year    = "2025",
-  month   = "March",
-  url     = "https://solar-vortex.github.io/blog/post/customshaders/"
+  month   = "February",
+  url     = "https://solar-vortex.github.io/blog/post/blog3/"
 }
 

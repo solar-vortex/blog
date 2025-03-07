@@ -9,6 +9,30 @@
     <lastBuildDate>Mon, 10 Feb 2025 17:08:07 +0530</lastBuildDate>
     <atom:link href="http://localhost:1313/blog/post/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>3D Solar Rooftop Mapping with Google 3D Tiles, Deck.gl, and Three.js</title>
+      <link>http://localhost:1313/blog/post/blog2/</link>
+      <pubDate>Mon, 10 Feb 2025 17:08:07 +0530</pubDate>
+      <guid>http://localhost:1313/blog/post/blog2/</guid>
+      <description>&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;Estimating solar potential isn’t just about mapping rooftops—it requires accurate panel placement, shading analysis, and real-time sun exposure calculations. To achieve this, we integrated Google’s &lt;strong&gt;Photorealistic 3D Tiles&lt;/strong&gt; with &lt;strong&gt;Deck.gl’s Tiles3DLayer&lt;/strong&gt; and &lt;strong&gt;Three.js&lt;/strong&gt; for rendering dynamically placed solar panels.&lt;/p&gt;
+&lt;p&gt;While Deck.gl provides high-performance geospatial visualization, Three.js gives us &lt;strong&gt;precise control&lt;/strong&gt; over materials, object transformations, and real-time shadows. Combining both frameworks allowed us to create an efficient, interactive 3D solar analysis tool.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Calculating BIPV Potential Using GHI, DNI, and Other Solar Parameters</title>
+      <link>http://localhost:1313/blog/post/blog3/</link>
+      <pubDate>Mon, 10 Feb 2025 17:08:07 +0530</pubDate>
+      <guid>http://localhost:1313/blog/post/blog3/</guid>
+      <description>&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;Building-Integrated Photovoltaics (BIPV) present an innovative way to harness solar energy by integrating photovoltaic panels into a building’s &lt;strong&gt;façades and rooftops&lt;/strong&gt;. Unlike conventional rooftop-mounted solar panels, BIPV panels serve both &lt;strong&gt;architectural and functional purposes&lt;/strong&gt;, making them an essential part of sustainable urban development.&lt;/p&gt;
+&lt;p&gt;However, accurately estimating the energy generation potential of BIPV requires precise calculations that consider various &lt;strong&gt;solar radiation parameters&lt;/strong&gt;, including:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Global Horizontal Irradiance (GHI)&lt;/strong&gt; – the total solar energy incident on a horizontal surface.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Direct Normal Irradiance (DNI)&lt;/strong&gt; – the amount of direct sunlight received perpendicular to the sun’s rays.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Diffuse Horizontal Irradiance (DHI)&lt;/strong&gt; – the scattered sunlight reaching the surface from the atmosphere.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;In this blog, we discuss how these parameters contribute to &lt;strong&gt;BIPV energy estimation&lt;/strong&gt; and how we integrate them into our &lt;strong&gt;3D city model-based solar analysis&lt;/strong&gt; for an accurate and interactive assessment.&lt;/p&gt;</description>
+    </item>
+    <item>
       <title>Running Custom WebGL Shaders Using Deck.gl for Solar Potential Analysis</title>
       <link>http://localhost:1313/blog/post/customshaders/</link>
       <pubDate>Mon, 10 Feb 2025 17:08:07 +0530</pubDate>
@@ -16,38 +40,6 @@
       <description>&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;
 &lt;p&gt;Accurate solar potential analysis requires &lt;strong&gt;precise shadow modeling&lt;/strong&gt;—a challenge when dealing with large-scale city models in real time. Traditional GIS tools often rely on precomputed static shadow maps, but for &lt;strong&gt;dynamic sun positions and interactive analysis&lt;/strong&gt;, we need a more flexible approach.&lt;/p&gt;
 &lt;p&gt;Leveraging &lt;a href=&#34;https://www.deck.gl&#34;&gt;&lt;strong&gt;Deck.gl&amp;rsquo;s&lt;/strong&gt;&lt;/a&gt; &lt;strong&gt;WebGL-powered rendering pipeline&lt;/strong&gt;, we implemented a &lt;strong&gt;custom shader-based solution&lt;/strong&gt; to calculate &lt;strong&gt;real-time solar exposure&lt;/strong&gt; on buildings. By extending Deck.gl’s built-in layers with custom &lt;a href=&#34;https://developer.mozilla.org/en-US/docs/Games/Techniques/3D_on_the_web/GLSL_Shaders&#34;&gt;&lt;strong&gt;GLSL shaders&lt;/strong&gt;&lt;/a&gt;, we were able to:&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>Second Blog</title>
-      <link>http://localhost:1313/blog/post/blog2/</link>
-      <pubDate>Mon, 10 Feb 2025 17:08:07 +0530</pubDate>
-      <guid>http://localhost:1313/blog/post/blog2/</guid>
-      <description>&lt;h2 id=&#34;citation&#34;&gt;Citation&lt;/h2&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bibtex&#34; data-lang=&#34;bibtex&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;@article&lt;/span&gt;{CustomShader,
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#a6e22e&#34;&gt;title&lt;/span&gt;   = &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Second Blog&amp;#34;&lt;/span&gt;,
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#a6e22e&#34;&gt;author&lt;/span&gt;  = &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Prathamesh Badgujar&amp;#34;&lt;/span&gt;,
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#a6e22e&#34;&gt;journal&lt;/span&gt; = &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;solar-vortex.github.io&amp;#34;&lt;/span&gt;,
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#a6e22e&#34;&gt;year&lt;/span&gt;    = &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;2025&amp;#34;&lt;/span&gt;,
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#a6e22e&#34;&gt;month&lt;/span&gt;   = &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Feb&amp;#34;&lt;/span&gt;,
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#a6e22e&#34;&gt;url&lt;/span&gt;     = &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;https://solar-vortex.github.io/blog/post/customshaders/&amp;#34;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
-    </item>
-    <item>
-      <title>Second Blog</title>
-      <link>http://localhost:1313/blog/post/blog3/</link>
-      <pubDate>Mon, 10 Feb 2025 17:08:07 +0530</pubDate>
-      <guid>http://localhost:1313/blog/post/blog3/</guid>
-      <description>&lt;h2 id=&#34;citation&#34;&gt;Citation&lt;/h2&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bibtex&#34; data-lang=&#34;bibtex&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;@article&lt;/span&gt;{CustomShader,
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#a6e22e&#34;&gt;title&lt;/span&gt;   = &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Second Blog&amp;#34;&lt;/span&gt;,
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#a6e22e&#34;&gt;author&lt;/span&gt;  = &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Prathamesh Badgujar&amp;#34;&lt;/span&gt;,
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#a6e22e&#34;&gt;journal&lt;/span&gt; = &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;solar-vortex.github.io&amp;#34;&lt;/span&gt;,
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#a6e22e&#34;&gt;year&lt;/span&gt;    = &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;2025&amp;#34;&lt;/span&gt;,
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#a6e22e&#34;&gt;month&lt;/span&gt;   = &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Feb&amp;#34;&lt;/span&gt;,
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#a6e22e&#34;&gt;url&lt;/span&gt;     = &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;https://solar-vortex.github.io/blog/post/customshaders/&amp;#34;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
     </item>
   </channel>
 </rss>

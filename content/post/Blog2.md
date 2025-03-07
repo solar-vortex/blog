@@ -1,9 +1,10 @@
 ---
 title: "3D Solar Rooftop Mapping with Google 3D Tiles, Deck.gl, and Three.js"
-author: "| Prathamesh Badgujar"
+author: "Atharva Garole | Prathamesh Badgujar | Sagar Singh"
 date: 2025-02-10T17:08:07+05:30
 draft: false
 math: true
+weight : 1
 params:
   ShowToc: true
   TocOpen: false
@@ -212,11 +213,11 @@ By integrating **Google 3D Tiles, Deck.gl, and Three.js**, we created an efficie
 ```bibtex
 @article{CustomShader,
   title   = "3D Solar Rooftop Mapping with Google 3D Tiles, Deck.gl, and Three.js",
-  author  = "Prathamesh Badgujar",
+  author  = "Atharva Garole | Prathamesh Badgujar | Sagar Singh",
   journal = "solar-vortex.github.io",
   year    = "2025",
-  month   = "Feb",
-  url     = "https://solar-vortex.github.io/blog/post/customshaders/"
+  month   = "February",
+  url     = "https://solar-vortex.github.io/blog/post/blog2/"
 }
 ```
 

@@ -1,9 +1,10 @@
 ---
 title: "Running Custom WebGL Shaders Using Deck.gl for Solar Potential Analysis"
-author: "| Atharva Garole"
+author: "Atharva Garole | Prathamesh Badgujar | Sagar Singh"
 date: 2025-02-10T17:08:07+05:30
 draft: false
 math: true
+weight : 2
 params:
   ShowToc: true
   TocOpen: false
@@ -351,10 +352,10 @@ This approach empowers researchers, urban planners, and policymakers to interact
 ```bibtex
 @article{CustomShader,
   title   = "Running Custom WebGL Shaders Using Deck.gl for Solar Potential Analysis.",
-  author  = "Atharva Garole",
+  author  = "Atharva Garole | Prathamesh Badgujar | Sagar Singh",
   journal = "solar-vortex.github.io",
   year    = "2025",
-  month   = "Feb",
+  month   = "February",
   url     = "https://solar-vortex.github.io/blog/post/customshaders/"
 }
 
