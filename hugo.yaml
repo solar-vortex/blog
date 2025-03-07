@@ -9,9 +9,9 @@ params:
     icon: "imgs/logo.png"  # Path to your logo image
     iconHeight: 43
   assets:
-    favicon: "favicon.png"  # Path to your favicon image
-    touchicon: "touchicon.png"  # Path to your touchicon image
-    appleicon: "appleicon.png"  # Path to your appleicon image
+    favicon: "favicon_32x32.png"  # Path to your favicon image
+    touchicon: "appletouchicon.png"  # Path to your touchicon image
+    appleicon: "appletouchicon.png"  # Path to your appleicon image
   
 
 
