@@ -7,7 +7,12 @@ theme: ["PaperMod"]
 params:
   label:
     icon: "imgs/logo.png"  # Path to your logo image
-    iconHeight: 43  # Adjust size as needed
+    iconHeight: 43
+  assets:
+    favicon: "favicon.png"  # Path to your favicon image
+    touchicon: "touchicon.png"  # Path to your touchicon image
+    appleicon: "appleicon.png"  # Path to your appleicon image
+  
 
 
 
