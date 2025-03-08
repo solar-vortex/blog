@@ -13,7 +13,7 @@ params:
 cover:
    image: "imgs/3d_solpan_optimize.gif"
    alt: "Solar Potential Map"
-   caption: "Rendering 3D SolarPanels on Google Maps 3D Tiles"
+   caption: "Rendering 3D Solar Panels on Google Maps 3D Tiles"
    relative: true
    hidden: false  
 
