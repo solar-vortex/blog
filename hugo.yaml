@@ -43,9 +43,9 @@ params:
     - Solar Shading analysis
     - Camera Viewport synchronization
 
-services:
-  googleAnalytics:
-    id: "G-XV3BRL91WX"
+# services:
+#   googleAnalytics:
+#     id: "G-XV3BRL91WX"
 
 
 
