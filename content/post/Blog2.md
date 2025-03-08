@@ -91,7 +91,7 @@ const threeCamera = new PerspectiveCamera();
 ```
 By syncing the **Google Maps camera** with Three.js, solar panels align perfectly with the real-world buildings in Google’s 3D Tiles.
 
-<!-- {{< figure align=center src="/blog/imgs/flowchart.jpg" alt="" caption="" >}} -->
+{{< figure align=center src="/blog/imgs/flowchart.jpg" alt="" caption="" >}}
 
 ---
 
