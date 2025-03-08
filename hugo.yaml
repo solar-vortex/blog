@@ -51,8 +51,8 @@ params:
 
 menu:
   main:
-    - identifier: blogs
-      name: blogs
+    - identifier: Blogs
+      name: Blogs
       url: /
       weight: 10
 
