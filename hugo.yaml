@@ -6,7 +6,11 @@ theme: ["PaperMod"]
 enableRobotsTXT: true
 # canonifyURLs : true
 # relativeURLs : true
+
+
 params:
+  robots: "index, follow"
+
   label:
     icon: "imgs/logo.png"  # Path to your logo image
     iconHeight: 43
