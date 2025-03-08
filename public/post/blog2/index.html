@@ -246,10 +246,6 @@ While Deck.gl provides high-performance geospatial visualization, Three.js gives
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">threeRenderer</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">WebGLRenderer</span>();
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">threeCamera</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">PerspectiveCamera</span>();
 </span></span></code></pre></div><p>By syncing the <strong>Google Maps camera</strong> with Three.js, solar panels align perfectly with the real-world buildings in Google’s 3D Tiles.</p>
-<figure class="align-center ">
-    <img loading="lazy" src="/blog/imgs/flowchart.jpg#center"/> 
-</figure>
-
 <hr>
 <h2 id="enumerating-solar-panel-orientation-and-rendering">Enumerating Solar Panel Orientation and Rendering<a hidden class="anchor" aria-hidden="true" href="#enumerating-solar-panel-orientation-and-rendering">#</a></h2>
 <p>Instead of procedurally placing panels, we used <strong>Google&rsquo;s Solar API</strong> to retrieve <strong>panel locations and orientations</strong>. We then passed this data to <strong>Three.js’s InstancedMesh</strong>, ensuring that panels align correctly with rooftops.</p>
