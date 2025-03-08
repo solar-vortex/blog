@@ -11,7 +11,7 @@ params:
   
 
 cover:
-   image: "imgs/MovingShadows-ezgif.com-crop.gif"
+   image: "imgs/3d_solpan_optimize.gif"
    alt: "Solar Potential Map"
    caption: "Rendering 3D SolarPanels on Google Maps 3D Tiles"
    relative: true
