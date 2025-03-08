@@ -11,7 +11,7 @@ params:
   
 
 cover:
-   image: "imgs/image.jpg"
+   image: "imgs/shaders_cover.gif"
    alt: "Solar Potential Map"
    caption: "Gradient Solar Potential Map of New York City"
    relative: true

@@ -1,3 +1,3 @@
 User-agent: *
-Disallow:
-Sitemap: https://solar-vortex.github.io/blog/sitemap.xml
+Disallow: /
+Sitemap: http://localhost:1313/blog/sitemap.xml
